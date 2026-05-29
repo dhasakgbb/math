@@ -3,53 +3,47 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-display: 'Fredoka', var(--font-sans);
 
-  /* Color Design Tokens (OKLCH for uniform perception) */
-  --color-primary-light: oklch(65% 0.18 140); /* Fresh Green */
-  --color-primary-dark: oklch(50% 0.15 140);  /* Deep Forest Green */
+  /* Color Design Tokens (Bioluminescent Night Garden) */
+  --color-bg: #0b0c10; /* Deep dark background */
   
-  --color-accent-light: oklch(85% 0.18 80);  /* Sunflower Gold */
-  --color-accent-dark: oklch(75% 0.15 80);   /* Warm Sun */
+  --color-primary-light: #45f3ff; /* Neon cyan */
+  --color-primary-dark: #00e8f2;  
   
-  --color-bg-light: oklch(98% 0.02 110);     /* Soft Creamy Green */
-  --color-bg-dark: oklch(20% 0.04 140);      /* Dark earthy green */
-
-  --color-panel-light: rgba(255, 255, 255, 0.85);
-  --color-panel-dark: rgba(20, 35, 25, 0.85);
+  --color-accent-light: #ff007f;  /* Neon magenta */
+  --color-accent-dark: #d9006c;   
   
-  --color-border-light: rgba(30, 80, 40, 0.15);
-  --color-border-dark: rgba(200, 255, 210, 0.15);
+  --color-panel: rgba(15, 20, 25, 0.6); /* Super dark glass */
+  --color-border: rgba(69, 243, 255, 0.15);
 
   /* Functional Mappings */
-  color-scheme: light dark;
-  --color-primary: light-dark(var(--color-primary-light), var(--color-primary-dark));
-  --color-accent: light-dark(var(--color-accent-light), var(--color-accent-dark));
-  --color-bg: light-dark(var(--color-bg-light), var(--color-bg-dark));
-  --color-panel: light-dark(var(--color-panel-light), var(--color-panel-dark));
-  --color-border: light-dark(var(--color-border-light), var(--color-border-dark));
-  --color-text: light-dark(oklch(20% 0.05 140), oklch(98% 0.02 110));
-  --color-text-muted: light-dark(oklch(45% 0.05 140), oklch(85% 0.05 140));
+  color-scheme: dark;
+  --color-primary: var(--color-primary-light);
+  --color-accent: var(--color-accent-light);
+  --color-text: #e0e6ed;
+  --color-text-muted: #8b9bb4;
 
-  /* Neon Glow Accent Tokens (Mapped to floral/garden colors) */
-  --neon-cyan: #00d084; /* Leaf Green */
-  --neon-purple: #b87333; /* Wood brown */
-  --neon-pink: #ff6b81; /* Rose Pink */
-  --neon-yellow: #feca57; /* Sun Yellow */
-  --success: #1dd1a1;
-  --danger: #ff6b6b;
+  /* Floral/Garden Glow Accent Tokens (Bioluminescence) */
+  --neon-cyan: #00f2fe; /* Glowing flora */
+  --neon-purple: #b300ff; /* Mystical energy */
+  --neon-pink: #fe0979; /* Bioluminescent petals */
+  --neon-yellow: #f9d423; /* Fireflies */
+  --success: #00ff88;
+  --danger: #ff3366;
 
   /* Glows */
-  --glow-cyan: 0 0 20px rgba(0, 208, 132, 0.3), 0 0 40px rgba(0, 208, 132, 0.1);
-  --glow-purple: 0 0 20px rgba(184, 115, 51, 0.3);
+  --glow-cyan: 0 0 15px rgba(0, 242, 254, 0.4), 0 0 30px rgba(0, 242, 254, 0.2);
+  --glow-purple: 0 0 15px rgba(179, 0, 255, 0.4);
+  --glow-pink: 0 0 15px rgba(254, 9, 121, 0.4);
 
   /* Glassmorphism Configuration */
-  --glass-blur: blur(16px) saturate(120%);
-  --glass-shadow: 0 8px 32px 0 light-dark(rgba(0, 50, 20, 0.08), rgba(0, 0, 0, 0.35));
+  --glass-blur: blur(24px) saturate(150%);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
 
   /* Radii & Layout Constants */
   --r-sm: 8px;
   --r-md: 14px;
-  --r-lg: 24px;
-  --r-xl: 32px;
+  --r-lg: 20px;
+  --r-xl: 28px;
   
   --touch: 44px;
 }

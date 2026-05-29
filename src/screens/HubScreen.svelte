@@ -192,18 +192,18 @@
         }
       }
       if (closeTable) {
-        text = `Hey ${childName}! You're only ${needed} correct ${needed === 1 ? 'answer' : 'answers'} away from mastering your ${closeTable}s table. Let's nail them! 🌸`;
+        text = `Ready for the next level? You only need ${needed} more correct ${needed === 1 ? 'answer' : 'answers'} to completely master the ${closeTable}s table. Let's get it. ⚡`;
       } else {
-        text = `Hey ${childName}! Let's play Times Tables and grow some beautiful sprouts! 🌱`;
+        text = `Yo ${childName}. Jump into Times Tables and start lighting up the garden. 🌟`;
       }
     } else if (mode === 'speed-add') {
-      text = `Hey ${childName}! Let's try Speed Add. I love reading the equations out loud for you! 🎧`;
+      text = `Speed Add is queued up. Let's see how fast your reaction time really is. 🎧`;
     } else if (mode === 'number-sort') {
-      text = `Hey ${childName}! Let's sort some numbers together and catch those falling leaves! 🍃`;
+      text = `Sorting numbers next. Catch the primes and keep your streak alive. 🔥`;
     } else {
       const metadata = MODES_METADATA[mode as keyof typeof MODES_METADATA];
       const title = metadata ? metadata.title : 'Math Garden';
-      text = `Hi ${childName}! Let's explore the ${title} module next. It'll make our garden bloom! 🌼`;
+      text = `Welcome back. Let's unlock the ${title} module and make this garden glow. 🌌`;
     }
     
     return { mode, text };
@@ -247,7 +247,7 @@
         <p class="bubble-text">{smartRecommendation.text}</p>
       </div>
       <button onclick={() => handleSelect(smartRecommendation.mode)} class="btn-primary recommended-play-btn">
-        ✨ Play Smart Recommendation
+        ⚡ Launch Smart Pick
       </button>
     </div>
   </div>
@@ -256,7 +256,7 @@
   <div class="garden-container glass-panel">
     <div class="garden-metrics">
       <div class="metric-box">
-        <span class="metric-label">Garden Bloomed</span>
+        <span class="metric-label">Garden Unlocked</span>
         <span class="metric-val">{totalMasteredFlowers} / 10 Flowers</span>
       </div>
       
@@ -410,9 +410,9 @@
     width: 100%;
     margin: 0;
     padding: 1.5rem;
-    background: linear-gradient(135deg, rgba(40, 70, 45, 0.6), rgba(20, 45, 25, 0.8));
-    border-color: rgba(0, 208, 132, 0.2);
-    box-shadow: 0 0 20px rgba(0, 208, 132, 0.1);
+    background: linear-gradient(135deg, rgba(15, 20, 25, 0.8), rgba(10, 15, 20, 0.95));
+    border-color: rgba(0, 242, 254, 0.3);
+    box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
   }
 
   .astrid-mascot-area {
@@ -491,8 +491,8 @@
     width: 100%;
     margin: 0;
     padding: 1.5rem;
-    background: linear-gradient(180deg, rgba(40, 70, 45, 0.5) 0%, rgba(20, 45, 25, 0.7) 100%);
-    border-color: rgba(184, 115, 51, 0.15);
+    background: linear-gradient(180deg, rgba(15, 20, 25, 0.7) 0%, rgba(5, 10, 15, 0.9) 100%);
+    border-color: rgba(254, 9, 121, 0.2);
   }
 
   .garden-metrics {
