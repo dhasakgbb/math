@@ -300,8 +300,8 @@
 
   .grid-cell.shaded {
     --glow-c: var(--glow-moonflower);
-    background: var(--color-primary);
-    border-color: var(--color-primary);
+    background: oklch(78% 0.13 200);
+    border-color: oklch(78% 0.13 200);
     box-shadow: var(--glow-sm);
   }
 

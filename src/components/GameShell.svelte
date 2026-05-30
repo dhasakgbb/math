@@ -86,6 +86,7 @@
     aria-valuemax={total}
     aria-valuenow={questionIndex}
     aria-label="Question progress"
+    style:--drop-glow={glow}
   >
     <div class="droplets droplets--{dropletSize}">
       {#each { length: total } as _, i (i)}
@@ -193,9 +194,15 @@
     font-weight: 700;
     color: var(--color-primary, oklch(80% 0.15 280));
     margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    text-align: center;
+    text-wrap: balance;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 480px) {
+    .game-title {
+      font-size: 1rem;
+    }
   }
   .plant-thumb {
     flex-shrink: 0;
@@ -262,17 +269,18 @@
     transition: fill 0.25s, filter 0.25s;
   }
 
-  /* filled state */
+  /* filled state — color driven by --drop-glow (set per grove from the glow prop) */
   .droplet--filled .droplet-body {
-    fill: oklch(65% 0.18 215);
-    stroke: oklch(75% 0.20 210);
+    fill: var(--drop-glow, oklch(65% 0.18 215));
+    stroke: var(--drop-glow, oklch(75% 0.20 210));
+    opacity: 0.9;
   }
 
   @media (prefers-reduced-motion: no-preference) {
     .droplet--filled .droplet-body {
       filter:
-        drop-shadow(0 0 3px oklch(70% 0.22 210 / 0.8))
-        drop-shadow(0 0 10px oklch(65% 0.20 215 / 0.45));
+        drop-shadow(0 0 3px var(--drop-glow, oklch(70% 0.22 210 / 0.8)))
+        drop-shadow(0 0 10px var(--drop-glow, oklch(65% 0.20 215 / 0.45)));
       animation: droplet-fill 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
 
