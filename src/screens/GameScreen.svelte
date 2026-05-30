@@ -3,15 +3,16 @@
   import { profileStore } from '../lib/profile.svelte';
   import Mascot from '../components/Mascot.svelte';
   import GameShell from '../components/GameShell.svelte';
+  import { speciesFor } from '../components/SpeciesMap';
   import TimesTables from '../games/TimesTables.svelte';
   import SpeedAdd from '../games/SpeedAdd.svelte';
   import NumberSort from '../games/NumberSort.svelte';
   import FractionGarden from '../games/FractionGarden.svelte';
-  import PlaceValueCosmos from '../games/PlaceValueCosmos.svelte';
+  import PlaceValue from '../games/PlaceValue.svelte';
   import MultiplicationGrid from '../games/MultiplicationGrid.svelte';
-  import LongDivisionSpace from '../games/LongDivisionSpace.svelte';
+  import LongDivision from '../games/LongDivision.svelte';
   import DecimalGridZoom from '../games/DecimalGridZoom.svelte';
-  import GeometryConstellation from '../games/GeometryConstellation.svelte';
+  import CoordinatePlot from '../games/CoordinatePlot.svelte';
   import PEMDASTree from '../games/PEMDASTree.svelte';
 
   interface Props {
@@ -157,6 +158,7 @@
   {total}
   {onBack}
   glow={GLOW[mode] ?? 'var(--glow-firefly)'}
+  species={speciesFor(mode)}
 >
   {#snippet mascot()}
     <div class="mascot-wrapper">
@@ -200,7 +202,7 @@
       onFinished={onFinished}
     />
   {:else if mode === 'place-value'}
-    <PlaceValueCosmos
+    <PlaceValue
       {grade}
       onCorrect={handleCorrect}
       onIncorrect={handleIncorrect}
@@ -214,7 +216,7 @@
       onFinished={onFinished}
     />
   {:else if mode === 'long-division'}
-    <LongDivisionSpace
+    <LongDivision
       {grade}
       onCorrect={handleCorrect}
       onIncorrect={handleIncorrect}
@@ -228,7 +230,7 @@
       onFinished={onFinished}
     />
   {:else if mode === 'geometry-angles'}
-    <GeometryConstellation
+    <CoordinatePlot
       {grade}
       onCorrect={handleCorrect}
       onIncorrect={handleIncorrect}
