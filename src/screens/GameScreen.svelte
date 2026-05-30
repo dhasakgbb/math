@@ -219,6 +219,7 @@
       onCorrect={handleCorrect}
       onIncorrect={handleIncorrect}
       onFinished={onFinished}
+      bind:help={currentHelp}
     />
   {:else if mode === 'place-value'}
     <PlaceValue
