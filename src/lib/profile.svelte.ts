@@ -7,6 +7,7 @@ import {
   decodeProfileFragment,
   type ExportedProfile
 } from 'profile-schema';
+import { pickSmartMode } from './recommender';
 
 const PROFILE_STORAGE_KEY = 'helena-math:profile:v1';
 const SESSION_INDEX_KEY = 'helena-math:profile:session-index:v1';
@@ -141,6 +142,12 @@ class ProfileStore {
 
   get recommendedMathMode(): string | null {
     return this.profile ? recommendedMathMode(this.profile, this.sessionIndex) : null;
+  }
+
+  /** All-10 Smart Pick used by the UI AND by recordLaunch telemetry (single source of truth). */
+  get smartPick(): MathMode {
+    const mastery = ((this.profile?.module_overrides?.math as any)?.mastery) || {};
+    return pickSmartMode(this.recommendedMathMode, mastery);
   }
 
   /** Smooth 0..1 fill for the times-tables ring: partial credit toward 5 facts per table (11 tables). */

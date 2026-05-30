@@ -150,6 +150,12 @@ These are committed scope, not an appendix — the redesign exposes them, so the
 6. **Smart Pick only covers 3 of 10 modes.** `MODE_AFFINITY.math` + `MATH_ORDER` rotate over only times-tables/speed-add/number-sort, so `recommendedMathMode()` almost never returns null — a null-gated fallback never fires. **Fix:** an app-side recommender that **always runs**: take `recommendedMathMode()` as one candidate, compute lowest-mastery-in-path-order across all 10, and deterministically merge (honor the schema pick only when its mastery is also lowest-tier, else use the path fallback). **Telemetry:** `recordLaunch()` buckets followed/overrode by comparing launched vs. recommended (read by the parent dashboard). Decide and document whether "recommended" for telemetry is the schema value or the app value so `followRate`/`last_override_streak` don't silently diverge. No `profile-schema` change.
 7. **Touch / fonts / motion hygiene.** `--touch` → 48px app-wide; self-host Lexend woff2 (workbox-precached, `font-src 'self'`); ensure every new animation (bloom, ring tween, shake, firefly drift, sparkline) is `@keyframes`-based so the existing reduced-motion rule disables it, plus explicit guards for any JS-driven transform.
 
+### 10.6 Telemetry decision
+
+`recordLaunch` callers pass `profileStore.smartPick` as `recommended`, so `followed`/`overrode`/`last_override_streak` mean "followed the app's Smart Pick" across all 10 modes. Field shapes unchanged; `profile-schema` contract untouched; only the semantic of "recommended" widens from 3 → 10 modes.
+
+The app-side `pickSmartMode` function (`src/lib/recommender.ts`) is the single source of truth for the Smart Pick: it takes `recommendedMathMode()` (the schema's 3-mode candidate) and the per-mode `mastery` map, honors the schema pick only when its mastery is in the lowest-tier, and otherwise returns the lowest-mastery mode in `MATH_MODES` order (deterministic tie-breaking). The `profileStore.smartPick` getter wires this into the store with no store coupling in the pure function itself.
+
 ## 11. Constraints preserved
 
 - Svelte 5 runes + the existing `profileStore` singleton and `module_overrides.math.*` fields.
