@@ -9,11 +9,12 @@
     questionIndex: number;   // questions answered so far (0..total)
     total: number;           // 5 or 10
     onBack: () => void;
+    glow?: string;
     mascot?: Snippet;        // top-right reacting mascot + speech
     children: Snippet;       // the game body
   }
 
-  let { title, plantModeId, questionIndex, total, onBack, mascot, children }: Props = $props();
+  let { title, plantModeId, questionIndex, total, onBack, glow = 'var(--glow-firefly)', mascot, children }: Props = $props();
 
   function thumbStage(id: string): 0 | 1 | 2 | 3 | 4 {
     const v =
@@ -66,7 +67,7 @@
     <div class="title-area">
       <h1 class="game-title">{title}</h1>
       <div class="plant-thumb">
-        <Plant {stage} size={40} />
+        <Plant {stage} size={40} glow={glow} />
       </div>
     </div>
 
