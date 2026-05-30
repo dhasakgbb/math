@@ -31,6 +31,13 @@
     onSelectNext,
   }: Props = $props();
 
+  // Grove-matched glow for the watered-bed Plant on EndScreen.
+  const GROVE_GLOW: Record<string, string> = {
+    'times-tables': 'var(--glow-firefly)', 'speed-add': 'var(--glow-firefly)', 'number-sort': 'var(--glow-firefly)',
+    'fractions-visual': 'var(--glow-moonflower)', 'multiplication-grid': 'var(--glow-moonflower)', 'decimals-grid': 'var(--glow-moonflower)',
+    'place-value': 'var(--glow-blossom)', 'long-division': 'var(--glow-blossom)', 'geometry-angles': 'var(--glow-blossom)', 'pemdas-tree': 'var(--glow-blossom)',
+  };
+
   // Honest, plain-spoken names for the 10 modes (mirrors HubScreen MODE_NAMES).
   const MODE_NAMES: Record<string, string> = {
     'times-tables': 'Times Tables',
@@ -175,7 +182,7 @@
       <Plant
         species={speciesFor(mode)}
         stage={bedStage}
-        glow="var(--glow-moonflower)"
+        glow={GROVE_GLOW[mode] ?? 'var(--glow-firefly)'}
         size={132}
       />
     </div>

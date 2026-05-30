@@ -425,7 +425,7 @@
     flex-shrink: 0;
   }
   .gb-close svg { width: 18px; height: 18px; }
-  .gb-close:hover { color: var(--color-text); background: rgba(255, 255, 255, 0.06); }
+  .gb-close:hover { color: var(--color-text); background: oklch(100% 0 0 / 0.06); }
   .gb-close:focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
@@ -533,7 +533,7 @@
   }
   .gb-btn--quiet:hover {
     color: var(--color-text);
-    background: rgba(255, 255, 255, 0.05);
+    background: oklch(100% 0 0 / 0.05);
   }
 
   /* ── Action buttons ─────────────────────────────────────────────────────── */
@@ -565,7 +565,7 @@
   .gb-action-link:hover,
   .gb-action-btn:hover {
     color: var(--color-text);
-    background: rgba(255, 255, 255, 0.05);
+    background: oklch(100% 0 0 / 0.05);
   }
   .gb-action-link:focus-visible,
   .gb-action-btn:focus-visible {
