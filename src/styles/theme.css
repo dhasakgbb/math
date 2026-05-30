@@ -55,8 +55,8 @@
   --gs-path1: oklch(60% 0.05 250 / 0.55);
   --gs-path2: oklch(70% 0.06 200 / 0.35);
   --gs-mound-shadow: oklch(40% 0.05 200 / 0.18);
-  --gs-grass: oklch(40% 0.09 150);
-  --gs-grass-tip: oklch(72% 0.14 155);
+  --gs-grass: oklch(50% 0.12 150);
+  --gs-grass-tip: oklch(76% 0.15 155);
   --gs-ground-glow: oklch(70% 0.12 160 / 0.22);
   --gs-fog: oklch(62% 0.04 250 / 0.12);
   --gs-mushroom-stem: oklch(78% 0.03 90);

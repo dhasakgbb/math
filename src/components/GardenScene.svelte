@@ -148,6 +148,12 @@
     return { destroy() { ro.disconnect(); } };
   }
 
+  // Per-pod mushroom: a stable subset (~4 of 10) keyed off the mode's index in
+  // MATH_MODES order, so the SAME modes carry a mushroom in every layout.
+  const POD_HAS_SHROOM: Record<MathMode, boolean> = Object.fromEntries(
+    MATH_MODES.map((m, i) => [m, i % 3 === 0]),
+  ) as Record<MathMode, boolean>;
+
   function activate(m: MathMode) {
     onSelect(m);
   }
@@ -171,16 +177,18 @@
       h: 46 + wob * 52, // blade height 46..98
       lean: (wob2 - 0.5) * 26, // lean -13..+13 px
       w: 2.4 + wob2 * 1.6, // stroke width 2.4..4.0
-      o: 0.6 + wob * 0.3, // opacity 0.6..0.9
+      o: 0.8 + wob * 0.15, // opacity 0.8..0.95
     };
   });
 
   // Pre-computed firefly drift positions for the foreground layer. Denser
-  // (22) with extra position/size variance derived from the index so the
-  // swarm reads scattered rather than gridded.
-  const FIREFLIES = Array.from({ length: 22 }, (_, i) => ({
+  // (38) and biased toward the pod band (upper-mid, y≈25–60% of the scene) so
+  // the mid-ground reads populated rather than only the bottom. Position/size
+  // variance is derived from the index so the swarm reads scattered, not
+  // gridded; ~1 in 4 wanders lower (toward the floor) for depth.
+  const FIREFLIES = Array.from({ length: 38 }, (_, i) => ({
     x: (i * 71 + ((i * 29) % 19)) % 100,
-    y: 22 + ((i * 47) % 70),
+    y: i % 4 === 0 ? 60 + ((i * 23) % 30) : 25 + ((i * 31) % 35),
     d: (i % 9) * 0.45,
     r: 0.7 + ((i * 13) % 5) * 0.3,
   }));
@@ -201,6 +209,48 @@
     { x: 1150, y: 636, scale: 0.95 },
   ];
 </script>
+
+<!-- Per-pod ground tuft: a small decorative patch rendered as part of EACH pod
+     so it moves/scales with the pod at every breakpoint, anchoring the pot in
+     grass (no floating mid-ground). Sits absolutely at the pod's bottom-center,
+     z-behind the <Plant> and the label, and is pointer-events:none so it never
+     steals the button's tap. Optionally carries a tiny mushroom beside the
+     blades. All color via tokens. -->
+{#snippet tuft(glow: string, hasShroom: boolean)}
+  <svg class="pod-tuft" viewBox="0 0 120 56" aria-hidden="true" style:--glow-c={glow}>
+    <!-- soft ground patch under the pot so it reads grounded, not floating -->
+    <ellipse class="tuft-ground" cx="60" cy="44" rx="44" ry="13" fill="var(--gs-ground-glow)" />
+    <!-- 5 short grass blades fanning at the pot base: body + brighter tip -->
+    {#each [[44, -16], [52, -8], [60, 0], [68, 8], [76, 16]] as [bx, lean] (bx)}
+      <path
+        d="M{bx} 48 C {bx + lean * 0.35} 38 {bx + lean * 0.7} 28 {bx + lean} 18"
+        fill="none"
+        stroke="var(--gs-grass)"
+        stroke-width="3"
+        stroke-linecap="round"
+        opacity="0.85"
+      />
+      <path
+        d="M{bx + lean * 0.6} 30 C {bx + lean * 0.78} 25 {bx + lean * 0.9} 22 {bx + lean} 18"
+        fill="none"
+        stroke="var(--gs-grass-tip)"
+        stroke-width="2"
+        stroke-linecap="round"
+        opacity="0.9"
+      />
+    {/each}
+    {#if hasShroom}
+      <!-- tiny mushroom beside the tuft: glow halo → stem → domed cap → spots -->
+      <g transform="translate(96 44)">
+        <ellipse class="tuft-shroom-glow" cx="0" cy="-9" rx="11" ry="8" fill="var(--gs-mushroom-glow)" />
+        <path d="M-2 1 C -2.5 -4 -2 -7 -0.8 -9 L 2 -9 C 2.8 -7 3 -4 2.5 1 Z" fill="var(--gs-mushroom-stem)" />
+        <path d="M-7.5 -8.5 C -7.5 -14 -4 -16.5 0 -16.5 C 4 -16.5 7.5 -14 7.5 -8.5 C 4.5 -10 -4.5 -10 -7.5 -8.5 Z" fill="var(--gs-mushroom-cap)" />
+        <circle cx="-3" cy="-12.5" r="1.2" fill="var(--gs-mushroom-glow)" opacity="0.85" />
+        <circle cx="2" cy="-13.5" r="1" fill="var(--gs-mushroom-glow)" opacity="0.8" />
+      </g>
+    {/if}
+  </svg>
+{/snippet}
 
 <div
   class="garden grain vignette"
@@ -431,6 +481,7 @@
               aria-label={`${PRETTY[m]}: ${STAGE_LABEL[st]}`}
               onclick={() => activate(m)}
             >
+              {@render tuft(GROVE_GLOW[group.grove], POD_HAS_SHROOM[m])}
               <Plant stage={st} glow={GROVE_GLOW[group.grove]} size={88} species={speciesFor(m)} />
               <span class="pod-name">{PRETTY[m]}</span>
             </button>
@@ -462,6 +513,7 @@
           onclick={() => activate(pod.id)}
           onkeydown={(e) => onKey(e, pod.id)}
         >
+          {@render tuft(GROVE_GLOW[pod.grove], POD_HAS_SHROOM[pod.id])}
           <Plant stage={st} glow={GROVE_GLOW[pod.grove]} size={104} species={speciesFor(pod.id)} />
           <span class="pod-name">{PRETTY[pod.id]}</span>
         </button>
@@ -571,6 +623,9 @@
     pointer-events: auto;
     position: absolute;
     transform: translate(-50%, -50%);
+    /* own stacking context so the tuft's negative z stays trapped behind the
+       Plant/label yet above the pod background — never escapes to the scene */
+    isolation: isolate;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -588,7 +643,26 @@
     transition: transform 0.18s ease, filter 0.18s ease;
   }
 
+  /* Decorative ground tuft: anchored to the pod's bottom-center, sitting at the
+     pot base. Negative z-index (trapped by the pod's isolation) keeps it BEHIND
+     the Plant + label; pointer-events:none keeps the whole button tappable and
+     never covers the .pod-name. Width tracks the pod so it scales per layout. */
+  .pod-tuft {
+    position: absolute;
+    left: 50%;
+    /* sit at the pot base: above the label row, overlapping the Plant's lower
+       edge so the pot reads rooted in grass */
+    bottom: 1.7rem;
+    transform: translateX(-50%);
+    width: 84%;
+    height: auto;
+    z-index: -1;
+    pointer-events: none;
+    overflow: visible;
+  }
+
   .pod-name {
+    position: relative; /* keep label above the tuft within the pod context */
     font-size: 0.8rem;
     font-weight: 600;
     text-align: center;
